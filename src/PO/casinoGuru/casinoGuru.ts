@@ -1,24 +1,37 @@
 import { expect, type Locator, type Page } from "playwright/test";
+import { faker } from '@faker-js/faker';
+
+
+interface IcompleteRegistrationFirstStep{
+    (details: {email?: string, password?: string}): Promise<void>
+    
+    
+}
 
 
 export class CasinoGuru {
     readonly page: Page
-    readonly Logo: Locator
+    readonly LogoDesktop: Locator
+    readonly LogoMobile: Locator
     readonly MainPicture: Locator
-    readonly benefitsBlock: Locator
+    readonly registrationStepper: Locator
     readonly infoBlockHowTo: Locator
     readonly infoTermsAndCond: Locator
     readonly paymentLogos: Locator
     readonly verifLogos: Locator
     readonly license: Locator
-    readonly whyUsGetIt: Locator
-    readonly howToGetIt: Locator
     readonly regForm: Locator
+    readonly openRegGorm: Locator
     readonly emailInput: Locator
     readonly passwordInput: Locator
     readonly ageCheckbox: Locator
+    readonly ageCheckboxHit: Locator
     readonly promoCheckbox: Locator
+    readonly promoCheckboxHit: Locator
     readonly crossSaleCheckbox: Locator
+    readonly crossSaleCheckboxHit: Locator
+    readonly firstNextButton: Locator
+    readonly secondNextButton: Locator
     readonly createAccountButton: Locator
     readonly hidePassButton: Locator
     readonly countryDropdown: Locator
@@ -29,68 +42,109 @@ export class CasinoGuru {
     readonly stepperOne: Locator
     readonly stepperTwo: Locator
     readonly stepperThree: Locator
-    readonly whyUsStepperOne: Locator
-    readonly whyUsStepperTwo: Locator
-    readonly whyUsStepperThree: Locator
-    readonly invalidEmailError: Locator
-    readonly blankEmailError: Locator
+    readonly firstNameInfput: Locator
+    readonly lastNameInfput: Locator
+    readonly dayInput: Locator
+    readonly monthInput: Locator
+    readonly yearInput: Locator
+    readonly genderMale: Locator
+    readonly genderFemale: Locator
+    readonly blankError: Locator
     readonly passProgressBar: Locator
     readonly passProgressBarText: Locator
     readonly invalidPassToolTip: Locator
+    readonly cityInput: Locator
+    readonly addressInput: Locator
+    readonly postalCodeInput: Locator
+    readonly phoneNumberInput: Locator
     readonly countryDropdownItem: (country: string) => Locator;
+    readonly countryDropdownItemSelected: (country: string) => Locator;
     readonly currencyDropdownItem: (currency: string) => Locator;
+    readonly currencyDropdownItemSelected: (currency: string) => Locator;
+
+    
 
     constructor(page: Page){
         this.page = page
-        this.Logo = page.locator('xpath=')
-        this.MainPicture = page.locator("xpath=")
-        this.benefitsBlock = page.locator("xpath=")
-        this.infoBlockHowTo = page.locator("xpath=")
-        this.infoTermsAndCond = page.locator("xpath=")
-        this.paymentLogos = page.locator("xpath=")
-        this.verifLogos = page.locator("xpath=")
-        this.license = page.locator("xpath=")
-        this.whyUsGetIt = page.locator("")
-        this.howToGetIt = page.locator("")
-        this.regForm = page.locator("")
-        this.emailInput = page.locator("")
-        this.passwordInput = page.locator("")
-        this.ageCheckbox = page.locator("")
-        this.promoCheckbox = page.locator("")
-        this.crossSaleCheckbox = page.locator("")
-        this.createAccountButton = page.locator("")
-        this.hidePassButton = page.locator("")
-        this.countryDropdown = page.locator("")
-        this.currencyDropdown = page.locator("")
+        this.LogoDesktop = page.locator("xpath=//div[contains(@class,'header_desktop_logo')]/div[contains(@class, 'svelte-abczik')]/img")
+        this.LogoMobile = page.locator("xpath=//div[contains(@class,'header_mobile_logo')]/div[contains(@class, 'svelte-abczik')]/img")
+        this.MainPicture = page.locator("xpath=//div[contains(@class, 'offer__character ')]/img")
+        this.registrationStepper = page.locator("xpath=//div[contains(@class, 'offer__steps')]")
+        this.infoBlockHowTo = page.locator("div.howto.svelte-abczik")
+        this.infoTermsAndCond = page.locator("div.terms.svelte-abczik")
+        this.paymentLogos = page.locator("div.footer_block-payments")
+        this.verifLogos = page.locator("div.footer_block-logos")
+        this.license = page.locator("div.footer_block-text")
+        this.openRegGorm = page.locator("div.offer__button")
+
+
+        this.firstNextButton = page.locator("xpath=//div[contains(@class, 'first-step')]/div[contains(@class, 'form_buttons_wrapper')]/div/button")
+        this.regForm = page.locator("xpath=//div[contains(@class, 'form_block')]")
+        this.emailInput = page.locator("input.svelte-15nv5yr")
+        this.passwordInput = page.locator("input#id")
+        this.ageCheckboxHit = page.locator("xpath=//label[contains(@for, 'rule') and contains(@class, 'gal')]")
+        this.ageCheckbox = page.locator("#rule")
+        this.promoCheckbox = page.locator("#promos")
+        this.promoCheckboxHit = page.locator("xpath=//label[contains(@for, 'promos') and contains(@class, 'gal')]")
+        this.crossSaleCheckbox = page.locator("#crossale")
+        this.crossSaleCheckboxHit = page.locator("xpath=//label[contains(@for, 'crossale') and contains(@class, 'gal')]")
+
+
+        this.secondNextButton = page.locator("xpath=//div[contains(@class, 'second-step')]/div[contains(@class, 'form_buttons_wrapper')]/div/button")
+        this.firstNameInfput = page.locator('#first-name')
+        this.lastNameInfput = page.locator('last-name')
+        this.dayInput = page.locator("#day")
+        this.monthInput = page.locator("#month")
+        this.yearInput = page.locator("#year")
+        this.genderMale = page.locator("#m")
+        this.genderFemale = page.locator("button#f")
+
+
+
+        this.createAccountButton = page.locator("xpath=//div[contains(@class, 'third-step')]/div[contains(@class, 'form_buttons_wrapper')]/div/button[contains(@class, 'create_account')]")
+        this.cityInput = page.locator('#city')
+        this.addressInput = page.locator('#address')
+        this.postalCodeInput = page.locator('#postal_code')
+        this.phoneNumberInput = page.locator('#tel-input')
+
+        this.hidePassButton = page.locator("xpath=//button[contains(@class, 'pass')]")
+        this.countryDropdown = page.locator("button.btn.svelte-eg7mu2")
+        this.currencyDropdown = page.locator("button.btn.svelte-g9bpfz")
         this.termsAndConditionsLink = page.getByRole('link', { name: 'Terms and Conditions' })
         this.privacyPolicyLink = page.getByRole('link', { name: 'Privacy Policy' })
-        this.notValidEmailError = page.locator("").filter({hasText: 'Email is not valid'})
-        this.stepperOne = page.locator("")
-        this.stepperTwo = page.locator("")
-        this.stepperThree = page.locator("")
-        this.whyUsStepperOne = page.locator(``)
-        this.whyUsStepperTwo = page.locator(``)
-        this.whyUsStepperThree = page.locator(``)
-        this.invalidEmailError = page.locator("").filter({hasText: 'Email is not valid'})
-        this.blankEmailError = page.locator("").filter({hasText: "Can't be blank"})
-        this.passProgressBar = page.locator("")
-        this.passProgressBarText = page.locator("")
-        this.invalidPassToolTip= page.locator("")
+
+        this.notValidEmailError = page.locator("//div[contains(@class, 'error')]/span[contains(@class, 'active')]").filter({hasText: 'Email is not valid'})
+        this.stepperOne = page.locator("xpath=//div[contains(@class, 'offer__steps')]/div[contains(@class, 'step') and contains(@class, 'first')]")
+        this.stepperTwo = page.locator("xpath=//div[contains(@class, 'offer__steps')]/div[contains(@class, 'step') and contains(@class, 'second')]")
+        this.stepperThree = page.locator("xpath=//div[contains(@class, 'offer__steps')]/div[contains(@class, 'step') and contains(@class, 'third')]")
+
+        this.blankError = page.locator("xpath=//div[contains(@class, 'error')]/span[contains(@class, 'active')]").filter({hasText: "Can't be blank"})
+        this.passProgressBar = page.locator("xpath=//div[contains(@class, 'progress-bar')]/div[contains(@class, 'progress-state')]")
+        this.passProgressBarText = page.locator("xpath=//div[contains(@class, 'progress-text')]")
+        this.invalidPassToolTip= page.locator("xpath=//div[contains(@class, 'error')]/span[contains(@class, 'active')]")
+
         this.countryDropdownItem = (country: string) => page.locator(`xpath=//button[contains(@data-text, ${'country'})]`).filter({hasText: `${country}`})
+        this.countryDropdownItemSelected = (country: string) => page.locator(`xpath=//button[contains(@data-text, ${'country'}) and contains(@class, 'selected')]`).filter({hasText: `${country}`}).nth(0)
         this.currencyDropdownItem = (currency: string) => page.getByRole('button', { name: `${currency}`, exact: true })
+        this.currencyDropdownItemSelected = (currency: string) => page.locator(`xpath=//button[contains(@data-text, ${currency}) and contains(@class, 'selected')]`).filter({hasText: `${currency}`}).nth(0)
+        
 
     }
 
-    get CGLogo(): Locator{
-        return this.Logo;
+    get CGLogoDesktop(): Locator{
+        return this.LogoDesktop;
+    }
+
+    get CGLogoMobile(): Locator {
+        return this.LogoMobile;
     }
 
     get CGMainPicture(): Locator {
         return this.MainPicture;
     }
 
-    get whyUsBlock(): Locator {
-        return this.benefitsBlock;
+    get regStepper(): Locator {
+        return this.registrationStepper;
     }
 
     get howToBlock(): Locator {
@@ -113,12 +167,8 @@ export class CasinoGuru {
         return this.license;
     }
 
-    get CGWhyUsGetItButton(): Locator {
-        return this.whyUsGetIt;
-    }
-    
-    get CGHowToGetItButton(): Locator {
-        return this.howToGetIt;
+    get CGopenRegForm(): Locator {
+        return this.openRegGorm;
     }
 
     get CGRegForm(): Locator {
@@ -129,6 +179,10 @@ export class CasinoGuru {
         return this.emailInput;
     }
 
+    get CGAgeCheckboxHit(): Locator {
+        return this.ageCheckboxHit;
+    }
+
     get CGAgeCheckbox(): Locator {
         return this.ageCheckbox;
     }
@@ -137,11 +191,22 @@ export class CasinoGuru {
         return this.promoCheckbox;
     }
 
+    get CGPromoCheckboxHit(): Locator {
+        return this.promoCheckboxHit;
+    }
+
 
     get CGCrossSaleCheckbox(): Locator {
         return this.crossSaleCheckbox;
     }
 
+    get CGfirstNextButton(): Locator {
+        return this.firstNextButton;
+    }
+
+    get CGSecondNextButton(): Locator {
+        return this.secondNextButton;
+    }
 
     get CGCreateAccountButton(): Locator {
         return this.createAccountButton;
@@ -171,12 +236,9 @@ export class CasinoGuru {
         return this.notValidEmailError;
     }
 
-    get CGInvalidEmailError(): Locator {
-        return this.invalidEmailError;
-    }
 
-    get CGBlankEmailError(): Locator {
-        return this.blankEmailError;
+    get CGblankError(): Locator {
+        return this.blankError;
     }
 
     get CGPassProgressBar(): Locator {
@@ -198,14 +260,58 @@ export class CasinoGuru {
 
     async checkDropdownCountries(country: string){
         console.log(`Checking ${country} visibility in dropdown`)
-        await this.currencyDropdownItem(country).click()
-        await expect(this.countryDropdownItem(country)).toBeVisible()
+        await this.countryDropdownItem(country).click()
+        await expect(this.countryDropdownItemSelected(country)).toBeVisible()
     }
 
     async checkDropdownCurrencies(currency: string){
         console.log(`Checking ${currency} visibility in dropdown`)
         await this.currencyDropdownItem(currency).click()
-        await expect(this.currencyDropdownItem(currency)).toBeVisible()
+        await expect(this.currencyDropdownItemSelected(currency)).toBeVisible()
+    }
+
+    checkEmailAndPasswordField: IcompleteRegistrationFirstStep = async ({email, password}) => {
+        await this.emailInput.fill(email || '')
+        await this.passwordInput.fill(password || '')
+    }
+
+    completeRegistrationFirstStep: IcompleteRegistrationFirstStep = async ({email, password}) => {
+        await this.emailInput.fill(email || '')
+        await this.passwordInput.fill(password || '')
+        await this.ageCheckbox.click()
+    }
+
+    async completeRegistrationSecondStep({firstName, secondName, day, month, year, gender}:
+    {firstName?: string, secondName?: string, day?: string, month?: string, year?: string, gender?: boolean}){
+        if(firstName){
+            await this.firstNameInfput.fill(firstName)
+        }
+        if(secondName){
+            await this.lastNameInfput.fill(secondName)
+        }
+        if(day){
+            await this.dayInput.selectOption(String(day))
+        }
+        if(month){
+            await this.monthInput.selectOption(String(month))
+        }
+        if(year){
+            await this.yearInput.selectOption(String(year))
+        }
+        if(gender){
+            if(gender = true){
+                await this.genderMale.click()
+            } else {
+                await this.genderFemale.click()
+            }
+        }
+    }
+
+    async completeRegistrationThirdStep(city?: string, address?: string, postalCode?: string, phoneNumber?: string){
+        await this.cityInput.fill(city || '')
+        await this.addressInput.fill(address || '')
+        await this.postalCodeInput.fill(postalCode || '')
+        await this.phoneNumberInput.fill(phoneNumber || '')
     }
 
     

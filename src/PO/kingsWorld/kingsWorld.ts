@@ -11,8 +11,6 @@ export class KingsWorld {
     readonly paymentLogos: Locator
     readonly verifLogos: Locator
     readonly license: Locator
-    readonly whyUsGetIt: Locator
-    readonly howToGetIt: Locator
     readonly regForm: Locator
     readonly emailInput: Locator
     readonly passwordInput: Locator
@@ -50,8 +48,7 @@ export class KingsWorld {
         this.paymentLogos = page.locator("xpath=//div[contains(@class, 'footer_block-payments svelte-lmq9rw')]")
         this.verifLogos = page.locator("xpath=//div[contains(@class, 'footer_block-logos svelte-lmq9rw')]")
         this.license = page.locator("xpath=//div[contains(@class, 'footer_block-text svelte-lmq9rw')]")
-        this.whyUsGetIt = page.locator("div.whyus_block-button.svelte-1t85epi")
-        this.howToGetIt = page.locator("button.button.list-button")
+
         this.regForm = page.locator("xpath=//main")
         this.emailInput = page.locator("xpath=//main//input[contains(@name, 'email')]")
         this.passwordInput = page.locator("xpath=//main//input[contains(@name, 'password')]")
@@ -62,8 +59,10 @@ export class KingsWorld {
         this.hidePassButton = page.locator("xpath=//button[contains(@class, 'pass')]")
         this.countryDropdown = page.locator("xpath=//div[contains(@class, 'selects_wrapper')]//button[contains(@class, 'svelte-1gf82f6') and contains(@class, 'btn')]")
         this.currencyDropdown = page.locator("button.btn.svelte-1u63d2r")
+
         this.termsAndConditionsLink = page.getByRole('link', { name: 'Terms and Conditions' })
         this.privacyPolicyLink = page.getByRole('link', { name: 'Privacy Policy' })
+
         this.notValidEmailError = page.locator("xpath=//div[contains(@class, 'error')]").filter({hasText: 'Email is not valid'})
         this.stepperOne = page.locator("xpath=//div[contains(@class,  'offer_block-steps-banner')][1]")
         this.stepperTwo = page.locator("xpath=//div[contains(@class,  'offer_block-steps-banner')][2]")
@@ -76,6 +75,7 @@ export class KingsWorld {
         this.passProgressBar = page.locator("xpath=//div[contains(@class, 'progress-bar')]/div[contains(@class, 'progress-state')]")
         this.passProgressBarText = page.locator("xpath=//div[contains(@class, 'progress-text')]")
         this.invalidPassToolTip= page.locator("xpath=//div[contains(@class, 'error')]/span[contains(@class, 'active')]")
+        
         this.countryDropdownItem = (country: string) => page.locator(`xpath=//button[contains(@data-text, ${'country'})]`).filter({hasText: `${country}`})
         this.currencyDropdownItem = (currency: string) => page.getByRole('button', { name: `${currency}`, exact: true })
 
@@ -111,14 +111,6 @@ export class KingsWorld {
 
     get KWLicenseText(): Locator {
         return this.license;
-    }
-
-    get KWWhyUsGetItButton(): Locator {
-        return this.whyUsGetIt;
-    }
-    
-    get KWHowToGetItButton(): Locator {
-        return this.howToGetIt;
     }
 
     get KWRegForm(): Locator {
@@ -198,7 +190,7 @@ export class KingsWorld {
 
     async checkDropdownCountries(country: string){
         console.log(`Checking ${country} visibility in dropdown`)
-        await this.currencyDropdownItem(country).click()
+        await this.countryDropdownItem(country).click()
         await expect(this.countryDropdownItem(country)).toBeVisible()
     }
 
