@@ -38,7 +38,7 @@ export const KINGBILLYSITE = {
 
 export const LANDINGS: ILandings = {
     kingsWorld: 'https://www.kingbillycasino.com/land/en/kings_world_welcome_pack_1?nofingerprint=1',
-    casinoGuru: 'https://www.kingbillycasino1.com/land/no/casinoguru?nofingerprint=1'
+    casinoGuru: 'https://www.kingbillycasino1.com/land/ie/casinoguru?nofingerprint=1'
 }
 
 export const DROPDOWN_COUNTRIES: IDropdownCountries = {

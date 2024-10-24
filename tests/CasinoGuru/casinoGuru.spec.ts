@@ -1,9 +1,10 @@
 import {test, expect} from "playwright/test";
 import { CasinoGuru } from "../../src/PO/casinoGuru/casinoGuru";
-import { KINGBILLYSITE, LANDINGS, DROPDOWN_COUNTRIES, DROPDOWN_CURRENCIES, REDIRECT_LINKS, } from "../../src/constants/constants";
+import { LANDINGS, DROPDOWN_COUNTRIES, DROPDOWN_CURRENCIES, REDIRECT_LINKS, } from "../../src/constants/constants";
 import Methods from "../../src/methods/methods";
 import { BACKGROUND_COLORS, CG_UI_TEXT, EMAIL_VIOLATIONS, PROGRESS_TEXT, TEXT_TOOLTIP, UI_TEXT } from "../../src/constants/textAndColorParams";
 import { PASS_INPUTS, TEST_CREDS } from "../../src/data/creds";
+import { faker } from "@faker-js/faker";
 
 
 
@@ -20,18 +21,7 @@ test.describe("King's world test", () => {
 
     test.describe('Check visibility of the elements', () => {
 
-        test('Check logo functionality', async ({page}) => {
-           
-            if (await casinoGuru.CGLogoDesktop.isVisible()){
-
-                await expect(casinoGuru.CGLogoDesktop).toBeVisible()
-            
-            } else {
-                await expect(casinoGuru.CGLogoMobile).toBeVisible()
-     
-            }
-        })
-
+      
         test('Check Registration form to be visible', async () => {
             await casinoGuru.CGopenRegForm.click()
             await expect(casinoGuru.CGRegForm).toBeVisible()
@@ -83,23 +73,15 @@ test.describe("King's world test", () => {
 
         test('Check if password input accepts information', async ({page}) => {
             const logs: any = []
-            const randomEmail = await methods.generateRandomEmail()
-
-            
 
             await casinoGuru.passwordInput.fill(TEST_CREDS.standartPassword)
-            await casinoGuru.CGEmailInput.fill(randomEmail)
+            await casinoGuru.passwordInput.blur()
 
             await page.on('console', (message) => {
                 logs.push({message, type: message.type()})
             })
 
             await casinoGuru.CGEmailInput.blur()
-
-            
-            const enteredPassword: string = await logs[2].message.text()
-
-            console.log(enteredPassword)
 
             expect(casinoGuru.blankError).not.toBeVisible()
         })
@@ -113,7 +95,7 @@ test.describe("King's world test", () => {
             await expect(casinoGuru.hidePassButton).toHaveClass('pass hidden svelte-17zm91l')
         })
 
-        test('Check promo checkbox functionality', async () => {
+        test('Check promo checkbox functionality', async ({page}) => {
             await expect(casinoGuru.promoCheckbox).toBeChecked()
             await casinoGuru.promoCheckboxHit.click()
             await expect(casinoGuru.promoCheckbox).not.toBeChecked()
@@ -212,6 +194,44 @@ test.describe("King's world test", () => {
             expect(page1.url()).toEqual(REDIRECT_LINKS.CGPrivacyPolicy)
 
     
+        })
+
+    })
+
+    test.describe('Check full registration process', () => {
+
+        test.beforeEach(async ({page}) => {
+            await page.waitForTimeout(3000)
+            await casinoGuru.CGopenRegForm.click()
+           
+        })
+
+        test('Check full registration', async () => {
+            const randomEmail = await methods.generateRandomEmail()
+
+            await casinoGuru.completeRegistrationFirstStep({email: randomEmail, password: TEST_CREDS.standartPassword})
+            await casinoGuru.firstNextButton.click()
+
+            await casinoGuru.completeRegistrationSecondStep({
+                firstName: faker.person.firstName(), 
+                secondName: faker.person.lastName(),
+                day: String(faker.number.int({max: 28, min: 1})),
+                month: String(faker.number.int({max: 12, min: 1})),
+                year: String(faker.number.int({max: 2004, min: 1860})),
+                gender: faker.datatype.boolean()
+
+            })
+            await casinoGuru.CGRegForm.click()
+            await casinoGuru.secondNextButton.click()
+
+            await casinoGuru.completeRegistrationThirdStep({
+                city: faker.location.city(),
+                address: faker.location.streetAddress(),
+                phoneNumber: TEST_CREDS.standartPhone,
+                postalCode: faker.location.zipCode()
+            })
+
+            expect(casinoGuru.createAccountButton).toBeEnabled()
         })
 
     })

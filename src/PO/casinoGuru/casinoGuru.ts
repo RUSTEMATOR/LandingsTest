@@ -2,10 +2,16 @@ import { expect, type Locator, type Page } from "playwright/test";
 import { faker } from '@faker-js/faker';
 
 
-interface IcompleteRegistrationFirstStep{
+interface IcompleteRegistrationFirstStep {
     (details: {email?: string, password?: string}): Promise<void>
-    
-    
+}
+
+interface IcompleteRegistrationSecondStep {
+    (details: {firstName?: string, secondName?: string, day?: string, month?: string, year?: string, gender?: boolean}): Promise<void>
+}
+
+interface IcompleteRegistrationThirdStep {
+    (details: {city?: string, address?: string, postalCode?: string, phoneNumber?: string}): Promise<void>
 }
 
 
@@ -42,7 +48,7 @@ export class CasinoGuru {
     readonly stepperOne: Locator
     readonly stepperTwo: Locator
     readonly stepperThree: Locator
-    readonly firstNameInfput: Locator
+    readonly firstNameinput: Locator
     readonly lastNameInfput: Locator
     readonly dayInput: Locator
     readonly monthInput: Locator
@@ -91,8 +97,8 @@ export class CasinoGuru {
 
 
         this.secondNextButton = page.locator("xpath=//div[contains(@class, 'second-step')]/div[contains(@class, 'form_buttons_wrapper')]/div/button")
-        this.firstNameInfput = page.locator('#first-name')
-        this.lastNameInfput = page.locator('last-name')
+        this.firstNameinput = page.locator('#first-name')
+        this.lastNameInfput = page.locator('#last-name')
         this.dayInput = page.locator("#day")
         this.monthInput = page.locator("#month")
         this.yearInput = page.locator("#year")
@@ -276,42 +282,65 @@ export class CasinoGuru {
     }
 
     completeRegistrationFirstStep: IcompleteRegistrationFirstStep = async ({email, password}) => {
+        if(email){
         await this.emailInput.fill(email || '')
+        }
+        if(password){
         await this.passwordInput.fill(password || '')
-        await this.ageCheckbox.click()
+        }
+        await this.ageCheckboxHit.click()
+
+        await this.emailInput.click()
+        await this.emailInput.blur()
     }
 
-    async completeRegistrationSecondStep({firstName, secondName, day, month, year, gender}:
-    {firstName?: string, secondName?: string, day?: string, month?: string, year?: string, gender?: boolean}){
-        if(firstName){
-            await this.firstNameInfput.fill(firstName)
-        }
-        if(secondName){
-            await this.lastNameInfput.fill(secondName)
-        }
-        if(day){
-            await this.dayInput.selectOption(String(day))
-        }
-        if(month){
-            await this.monthInput.selectOption(String(month))
-        }
-        if(year){
-            await this.yearInput.selectOption(String(year))
-        }
-        if(gender){
-            if(gender = true){
-                await this.genderMale.click()
-            } else {
-                await this.genderFemale.click()
+    completeRegistrationSecondStep: IcompleteRegistrationSecondStep = async ({firstName, secondName, day, month, year, gender}) => {
+        let attempts = 0;
+        const maxAttempts = 5;
+
+        
+        await this.firstNameinput.fill(firstName || '')
+        await this.lastNameInfput.fill(secondName || '')
+        await this.dayInput.selectOption(String(day))
+        await this.monthInput.selectOption(String(month))
+        
+        while (attempts < maxAttempts) {
+            try {
+                await this.yearInput.selectOption(year || '');
+            }
+            catch{
+                console.log(`Retrying select option... Attempt #${attempts + 1}`);
+                attempts += 1;
+                await this.page.waitForTimeout(2000)
+            }
+            finally{
+            console.log('Loop finished')
+            break
             }
         }
+    
+
+    
+        if(gender = true){
+            await this.genderMale.click()
+            expect(this.genderMale).toHaveClass('svelte-epdq71 active')
+            console.log('choosing male')
+        } else {
+            await this.genderFemale.click()
+            expect(this.genderFemale).toHaveClass('svelte-epdq71 active')
+            console.log('choosing female')
+        }
+
+        await this.yearInput.click()
+        await this.yearInput.blur()
     }
 
-    async completeRegistrationThirdStep(city?: string, address?: string, postalCode?: string, phoneNumber?: string){
+    completeRegistrationThirdStep: IcompleteRegistrationThirdStep = async ({city, address, postalCode, phoneNumber}) => {
         await this.cityInput.fill(city || '')
         await this.addressInput.fill(address || '')
         await this.postalCodeInput.fill(postalCode || '')
         await this.phoneNumberInput.fill(phoneNumber || '')
+        await this.phoneNumberInput.blur()
     }
 
     

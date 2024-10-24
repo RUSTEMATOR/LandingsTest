@@ -16,6 +16,7 @@ test.describe("Visual testing of King's World landing", async () => {
         kingsWorld = new KingsWorld(page);
         methods = new Methods();
         await kingsWorld.navigateTo(LANDINGS.kingsWorld)
+        await page.waitForTimeout(3000)
         
     })
 

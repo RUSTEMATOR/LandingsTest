@@ -1,5 +1,6 @@
 interface ITestCredentials {
     standartPassword: string
+    standartPhone?: string 
 }
 
 interface IpassInputs {
@@ -11,7 +12,9 @@ interface IpassInputs {
 }
 
 export const TEST_CREDS: ITestCredentials = {
-    standartPassword: '193786Az()'}
+    standartPassword: '193786Az()',
+    standartPhone: '850123456'
+}
 
 
 export const PASS_INPUTS: IpassInputs = {

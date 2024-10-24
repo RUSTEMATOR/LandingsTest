@@ -79,33 +79,33 @@ export default defineConfig({
     //   testMatch: ['tests/**/*.check.ts']
 
     // },
-    // {
-    //   name: 'chromium 1920x1080',
-    //   use: { ...devices['Desktop Chrome'],
-    //     viewport: {width: 1920, height:1080}
-    //    },
+    {
+      name: 'chromium 1920x1080',
+      use: { ...devices['Desktop Chrome'],
+        viewport: {width: 1920, height:1080}
+       },
      
-    // },
-    // {
-    //   name: 'chromium 1024x768',
-    //   use: { ...devices['Desktop Chrome'],
-    //     viewport: {width: 1024, height:768}
-    //    } ,
+    },
+    {
+      name: 'chromium 1024x768',
+      use: { ...devices['Desktop Chrome'],
+        viewport: {width: 1024, height:768}
+       } ,
      
-    // },
-    // {
-    //   name: 'chromium 360x660',
-    //   use: { ...devices['Desktop Chrome'],
-    //     viewport: {width: 360, height:660}
-    //    } ,
+    },
+    {
+      name: 'chromium 360x660',
+      use: { ...devices['Desktop Chrome'],
+        viewport: {width: 360, height:660}
+       } ,
      
-    // },
-    // {
-    //   name: 'chromium 768x420',
-    //   use: { ...devices['Desktop Chrome'],
-    //     viewport: {width: 768, height:420}
-    //    } ,
-    // }
+    },
+    {
+      name: 'chromium 768x420',
+      use: { ...devices['Desktop Chrome'],
+        viewport: {width: 768, height:420}
+       } ,
+    }
   ]
      
     // },
