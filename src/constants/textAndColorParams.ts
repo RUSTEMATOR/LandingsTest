@@ -40,7 +40,7 @@ export const UI_TEXT: IUiText = {
 
     howToBlock: `How to get your Bonus in 5 Easy Steps: 1. Register at King Billy by pressing the GET IT NOW button. 2. Make your 1st deposit and grab 100% Bonus + 100 Free Spins.\
  3. Make your 2nd deposit and grab 50% Bonus + 50 Free Spins (CODE: WELCOME2) 4. Make your 3rd deposit and grab 25% Bonus (CODE: WELCOME3)\
- 5. Make your 4th deposit and grab 75% Bonus + 100 Free Spins (CODE: WELCOME4) Up for Grabs a massive 250% Bonus +250 Free Spins! GET IT NOW`,
+ 5. Make your 4th deposit and grab 75% Bonus + 100 Free Spins (CODE: WELCOME4) Up for Grabs a massive 250% Bonus +250 Free Spins! get it now`,
 
     termsAndConditionsBlock: `BONUS TERMS & CONDITIONS 1. Wager x30 (bonus amount) 2. Max bet with an active bonus - €/$5 3. 1st Deposit bonus 100% + 100 Free Spins.\
  Maximum bonus amount: €/$500 4. 2nd Deposit bonus 50% + 50 Free Spins. Maximum bonus amount: €/$500 5. 3rd Deposit bonus 25%. Maximum bonus amount: €/$1000 6.\
@@ -104,7 +104,13 @@ export const PROGRESS_TEXT: IProgressText = {
 
 export const TEXT_TOOLTIP: ItextTooltip = {
     bad: 'Password must be at least 8 characters long',
-    weak: 'Must include one special symbol !@#$%^*()'
+    weak: '*Must include at least one special symbol, such as !@#$%^*()'
+
+}
+
+export const TEXT_TOOLTIPCG: ItextTooltip = {
+    bad: 'Password must be at least 8 characters long',
+    weak: '*Must include one special symbol !@#$%^*()'
 
 }
 

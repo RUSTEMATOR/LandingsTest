@@ -59,7 +59,8 @@ export const DROPDOWN_CURRENCIES: IDropdownCurrencies = {
 }
 
 
-export const EMAIL_DOMAINS: string[] = ['GMX.de', 'Web.de', 'T-Online.de', 'Hotmail.com', 'gmail.com', 'Yahoo.ca', 'Xtra.co.nz', 'Online.no'];
+export const EMAIL_DOMAINS: string[] = ["jens.reusch@gmx.de", "hanz@Web.de", "hanz@T-Online.de", "kirt_boynton@hotmail.com", "ivan@gmail.com", "anthony_faison@yahoo.ca",
+     "dyspraxia.centre@xtra.co.nz", "info@academyonline.no", "info@icloud.com", "john@hotmail.com", "mike@proton.me", "ben@outlook.com"];
 
 
 

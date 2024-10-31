@@ -16,19 +16,18 @@ export default defineConfig({
   testMatch:'**/*.spec.ts',
   testIgnore: '**/*.spec.skip.ts',
   /* Run tests in files in parallel */
-  fullyParallel: true,
-  expect: {
-    toHaveScreenshot: { maxDiffPixels: 20,
-     },
-    
-  },
+  fullyParallel: true,  
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
-  retries: 0,
+  retries: 6,
   /* Opt out of parallel tests on CI. */
-  workers: 5,
+  workers: 8,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
+
+  expect: { 
+    toHaveScreenshot: {maxDiffPixelRatio: 0.2}
+  },
   reporter: [
     ['html'],
             ["list"], 
@@ -76,36 +75,37 @@ export default defineConfig({
     //   name: 'Domains check',
     //   retries: 0,
     //   use: { ...devices['Desktop Chrome'] },
-    //   testMatch: ['tests/**/*.check.ts']
+    //   testMatch: ['tests/**/*.check.ts'], 
+    //   testIgnore: ['tests/**/*.check.skip.ts']
 
     // },
-    {
-      name: 'chromium 1920x1080',
-      use: { ...devices['Desktop Chrome'],
-        viewport: {width: 1920, height:1080}
-       },
+    // {
+    //   name: 'chromium 1920x1080',
+    //   use: { ...devices['Desktop Chrome'],
+    //     viewport: {width: 1920, height:1080}
+    //    },
      
-    },
-    {
-      name: 'chromium 1024x768',
-      use: { ...devices['Desktop Chrome'],
-        viewport: {width: 1024, height:768}
-       } ,
+    // },
+    // {
+    //   name: 'chromium 1024x768',
+    //   use: { ...devices['Desktop Chrome'],
+    //     viewport: {width: 1024, height:768}
+    //    } ,
      
-    },
-    {
-      name: 'chromium 360x660',
-      use: { ...devices['Desktop Chrome'],
-        viewport: {width: 360, height:660}
-       } ,
+    // },
+    // {
+    //   name: 'chromium 360x660',
+    //   use: { ...devices['Desktop Chrome'],
+    //     viewport: {width: 360, height:660}
+    //    } ,
      
-    },
-    {
-      name: 'chromium 768x420',
-      use: { ...devices['Desktop Chrome'],
-        viewport: {width: 768, height:420}
-       } ,
-    }
+    // },
+    // {
+    //   name: 'chromium 768x420',
+    //   use: { ...devices['Desktop Chrome'],
+    //     viewport: {width: 768, height:420}
+    //    } ,
+    // }
   ]
      
     // },

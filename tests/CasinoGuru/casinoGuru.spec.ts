@@ -2,13 +2,13 @@ import {test, expect} from "playwright/test";
 import { CasinoGuru } from "../../src/PO/casinoGuru/casinoGuru";
 import { LANDINGS, DROPDOWN_COUNTRIES, DROPDOWN_CURRENCIES, REDIRECT_LINKS, } from "../../src/constants/constants";
 import Methods from "../../src/methods/methods";
-import { BACKGROUND_COLORS, CG_UI_TEXT, EMAIL_VIOLATIONS, PROGRESS_TEXT, TEXT_TOOLTIP, UI_TEXT } from "../../src/constants/textAndColorParams";
+import { BACKGROUND_COLORS, CG_UI_TEXT, EMAIL_VIOLATIONS, PROGRESS_TEXT, TEXT_TOOLTIP, TEXT_TOOLTIPCG, UI_TEXT } from "../../src/constants/textAndColorParams";
 import { PASS_INPUTS, TEST_CREDS } from "../../src/data/creds";
 import { faker } from "@faker-js/faker";
 
 
 
-test.describe("King's world test", () => {
+test.describe("Casino guru test", () => {
     let casinoGuru: CasinoGuru
     let methods: Methods
 
@@ -88,11 +88,11 @@ test.describe("King's world test", () => {
 
         test('Check "hide password" button functionality', async () => {
             await expect(casinoGuru.hidePassButton).toBeVisible()
-            await expect(casinoGuru.hidePassButton).toHaveClass('pass hidden svelte-17zm91l')
+            await expect(casinoGuru.hidePassButton).toHaveClass(/hidden/)
             await casinoGuru.hidePassButton.click()
-            await expect(casinoGuru.hidePassButton).toHaveClass('pass active svelte-17zm91l')
+            await expect(casinoGuru.hidePassButton).toHaveClass(/active/)
             await casinoGuru.hidePassButton.click()
-            await expect(casinoGuru.hidePassButton).toHaveClass('pass hidden svelte-17zm91l')
+            await expect(casinoGuru.hidePassButton).toHaveClass(/hidden/)
         })
 
         test('Check promo checkbox functionality', async ({page}) => {
@@ -396,7 +396,7 @@ test.describe("King's world test", () => {
             await casinoGuru.passwordInput.fill(PASS_INPUTS.weak)
             await casinoGuru.passwordInput.blur()
         
-            expect(casinoGuru.invalidPassToolTip).toContainText(TEXT_TOOLTIP.weak)
+            expect(casinoGuru.invalidPassToolTip).toContainText(TEXT_TOOLTIPCG.weak)
         })
 
         test('Check password input status if more than 8 characters, 1 lower case and 1 special symbol', async ({page}) => {

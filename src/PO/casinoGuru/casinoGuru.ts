@@ -1,5 +1,6 @@
 import { expect, type Locator, type Page } from "playwright/test";
 import { faker } from '@faker-js/faker';
+import exp from "constants";
 
 
 interface IcompleteRegistrationFirstStep {
@@ -7,7 +8,7 @@ interface IcompleteRegistrationFirstStep {
 }
 
 interface IcompleteRegistrationSecondStep {
-    (details: {firstName?: string, secondName?: string, day?: string, month?: string, year?: string, gender?: boolean}): Promise<void>
+    (details: {firstName?: string, secondName?: string, day?: string, month?: string, year?: any, gender?: boolean}): Promise<void>
 }
 
 interface IcompleteRegistrationThirdStep {
@@ -86,7 +87,7 @@ export class CasinoGuru {
 
         this.firstNextButton = page.locator("xpath=//div[contains(@class, 'first-step')]/div[contains(@class, 'form_buttons_wrapper')]/div/button")
         this.regForm = page.locator("xpath=//div[contains(@class, 'form_block')]")
-        this.emailInput = page.locator("input.svelte-15nv5yr")
+        this.emailInput = page.locator("input.svelte-so6keg")
         this.passwordInput = page.locator("input#id")
         this.ageCheckboxHit = page.locator("xpath=//label[contains(@for, 'rule') and contains(@class, 'gal')]")
         this.ageCheckbox = page.locator("#rule")
@@ -114,8 +115,8 @@ export class CasinoGuru {
         this.phoneNumberInput = page.locator('#tel-input')
 
         this.hidePassButton = page.locator("xpath=//button[contains(@class, 'pass')]")
-        this.countryDropdown = page.locator("button.btn.svelte-eg7mu2")
-        this.currencyDropdown = page.locator("button.btn.svelte-g9bpfz")
+        this.countryDropdown = page.locator("xpath=//label[contains(@for, 'select_country')]/following-sibling::div[contains(@class, 'select')]/button[contains(@class, 'btn')]").first()
+        this.currencyDropdown = page.locator("xpath=//label[contains(@for, 'currency_select')]/following-sibling::div[contains(@class, 'select')]/button[contains(@class, 'btn')]").first()
         this.termsAndConditionsLink = page.getByRole('link', { name: 'Terms and Conditions' })
         this.privacyPolicyLink = page.getByRole('link', { name: 'Privacy Policy' })
 
@@ -129,9 +130,9 @@ export class CasinoGuru {
         this.passProgressBarText = page.locator("xpath=//div[contains(@class, 'progress-text')]")
         this.invalidPassToolTip= page.locator("xpath=//div[contains(@class, 'error')]/span[contains(@class, 'active')]")
 
-        this.countryDropdownItem = (country: string) => page.locator(`xpath=//button[contains(@data-text, ${'country'})]`).filter({hasText: `${country}`})
+        this.countryDropdownItem = (country: string) => page.locator(`xpath=//button[contains(@data-text, ${'country'})]`).filter({hasText: `${country}`}).first()
         this.countryDropdownItemSelected = (country: string) => page.locator(`xpath=//button[contains(@data-text, ${'country'}) and contains(@class, 'selected')]`).filter({hasText: `${country}`}).nth(0)
-        this.currencyDropdownItem = (currency: string) => page.getByRole('button', { name: `${currency}`, exact: true })
+        this.currencyDropdownItem = (currency: string) => page.getByRole('button', { name: `${currency}`, exact: true }).first()
         this.currencyDropdownItemSelected = (currency: string) => page.locator(`xpath=//button[contains(@data-text, ${currency}) and contains(@class, 'selected')]`).filter({hasText: `${currency}`}).nth(0)
         
 
@@ -303,37 +304,31 @@ export class CasinoGuru {
         await this.lastNameInfput.fill(secondName || '')
         await this.dayInput.selectOption(String(day))
         await this.monthInput.selectOption(String(month))
-        
-        while (attempts < maxAttempts) {
-            try {
-                await this.yearInput.selectOption(year || '');
-            }
-            catch{
-                console.log(`Retrying select option... Attempt #${attempts + 1}`);
-                attempts += 1;
-                await this.page.waitForTimeout(2000)
-            }
-            finally{
-            console.log('Loop finished')
-            break
-            }
-        }
-    
 
-    
-        if(gender = true){
-            await this.genderMale.click()
-            expect(this.genderMale).toHaveClass('svelte-epdq71 active')
-            console.log('choosing male')
+        await this.page.waitForTimeout(3000)
+
+        await this.yearInput.selectOption(String(year))
+
+        if (gender === true) {  // Use `===` for comparison
+            await this.genderMale.click();
+            await expect(this.genderMale).toHaveClass('svelte-epdq71 active');
+            console.log('Choosing male');
         } else {
-            await this.genderFemale.click()
-            expect(this.genderFemale).toHaveClass('svelte-epdq71 active')
-            console.log('choosing female')
+            await this.genderFemale.click();
+            await expect(this.genderFemale).toHaveClass('svelte-epdq71 active');
+            console.log('Choosing female');
         }
 
-        await this.yearInput.click()
-        await this.yearInput.blur()
-    }
+        // Blur the year input after selection and gender choice
+        await this.yearInput.click();
+        await this.yearInput.blur();
+        
+
+        }
+    
+
+    
+        
 
     completeRegistrationThirdStep: IcompleteRegistrationThirdStep = async ({city, address, postalCode, phoneNumber}) => {
         await this.cityInput.fill(city || '')

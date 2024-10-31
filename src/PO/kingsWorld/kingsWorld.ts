@@ -76,8 +76,8 @@ export class KingsWorld {
         this.passProgressBarText = page.locator("xpath=//div[contains(@class, 'progress-text')]")
         this.invalidPassToolTip= page.locator("xpath=//div[contains(@class, 'error')]/span[contains(@class, 'active')]")
         
-        this.countryDropdownItem = (country: string) => page.locator(`xpath=//button[contains(@data-text, ${'country'})]`).filter({hasText: `${country}`})
-        this.currencyDropdownItem = (currency: string) => page.getByRole('button', { name: `${currency}`, exact: true })
+        this.countryDropdownItem = (country: string) => page.locator(`xpath=//button[contains(@data-text, ${'country'})]`).filter({hasText: `${country}`}).first()
+        this.currencyDropdownItem = (currency: string) => page.getByRole('button', { name: `${currency}`, exact: true }).first()
 
     }
 
