@@ -22,7 +22,7 @@ export default defineConfig({
   /* Retry on CI only */
   retries: 6,
   /* Opt out of parallel tests on CI. */
-  workers: 8,
+  workers: 3,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
 
   expect: { 

@@ -81,7 +81,7 @@ test.describe("Reg form visual test", () => {
         await casinoGuru.CGopenRegForm.click()
         await page.waitForTimeout(1000)
         await page.addStyleTag({ content: 'html, body { overflow: hidden; width: 100vw; }' });
-        await expect(casinoGuru.CGRegForm).toHaveScreenshot('RegistrationFormFirst.png')
+        await expect(page).toHaveScreenshot('RegistrationFormFirst.png')
     })
 
     test('Check registration form on the second step', async ({page}) => {
@@ -94,7 +94,7 @@ test.describe("Reg form visual test", () => {
 
         await page.waitForTimeout(3000)
         await page.addStyleTag({ content: 'html, body { overflow: hidden; }' });
-        await expect(casinoGuru.CGRegForm).toHaveScreenshot('RegistrationFormSecond.png')
+        await expect(page).toHaveScreenshot('RegistrationFormSecond.png')
     })
 
     test('Check registration form on the third step', async ({page}) => {
@@ -118,7 +118,7 @@ test.describe("Reg form visual test", () => {
         await casinoGuru.secondNextButton.click()
         await page.waitForTimeout(3000)
         await page.addStyleTag({ content: 'html, body { overflow: hidden; }' });
-        await expect(casinoGuru.CGRegForm).toHaveScreenshot('RegistrationFormThird.png')
+        await expect(page).toHaveScreenshot('RegistrationFormThird.png')
     })
 
     
